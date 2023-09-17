@@ -42,7 +42,7 @@ Here's an example of how you can use the Validation Builder to perform a single 
 
 
 ```ts
-import { createValidation } from "validation-builder";
+import { createValidation } from "input-validation-builder";
 
 const value = "example";
 const validation = createValidation(value);
@@ -82,7 +82,7 @@ Validation errors: ["Invalid email address"]
 Here's an example of how you can use the Validation Library Multiple Validations chain:
 
 ```ts
-import { createValidation } from "validation-builder";
+import { createValidation } from "input-validation-builder";
 
 const value = "example";
 const validation = createValidation(value)
