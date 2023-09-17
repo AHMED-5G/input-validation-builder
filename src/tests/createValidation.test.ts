@@ -1,6 +1,4 @@
-// Import the necessary dependencies
 import assert from "assert";
-// import createValidation from "../createValidation";
 import { Validator } from "../types";
 import { warnMessageWhenErrorCalledWrongIndex } from "../constants";
 import { createValidation } from "../../dist";

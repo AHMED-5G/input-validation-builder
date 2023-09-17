@@ -1,10 +1,10 @@
-# Validation Builder
+# Input Validation Builder
 
-Validation Builder is a lightweight library for validating input values. It provides a simple and flexible way to perform various validations on input values, such as checking for required fields, validating email addresses, and more.
+Input Validation Builder is a lightweight library for validating input values. It provides a simple and flexible way to perform various validations on input values, such as checking for required fields, validating email addresses, and more.
 
 ## Usage
 
-Validation Builder provides a convenient way to build validation chains. You can use it to perform single or multiple validations on input values and retrieve any validation errors that occur.
+Input Validation Builder provides a convenient way to build validation chains. You can use it to perform single or multiple validations on input values and retrieve any validation errors that occur.
 
 
 ## Installation
@@ -12,13 +12,13 @@ Validation Builder provides a convenient way to build validation chains. You can
 Install the package using npm:
 
 ```bash
- npm install validation-builder
+ npm install input-validation-builder
 ```
 
 or
 
 ```bash
-bun install validation-builder
+bun install input-validation-builder
 ```
 
 ## `Validation` Interface
