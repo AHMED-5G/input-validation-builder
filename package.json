@@ -2,7 +2,7 @@
   "name": "input-validation-builder",
   "description": "Input Validation Builder is a lightweight library for validating input values",
   "license": "MIT",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -29,7 +29,10 @@
     "inputValidation",
     "inputValidationBuilder"
   ],
-  "repository": "https://github.com/AHMED-5G/input-validation-builder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHMED-5G/input-validation-builder.git"
+  },
   "author": "ahmed-5g <ahmed_5g@yahoo.com> (https://github.com/AHMED-5G)",
   "homepage": "https://github.com/AHMED-5G/input-validation-builder#readme",
   "dependencies": {},
