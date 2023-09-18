@@ -134,7 +134,7 @@ type Validator<InputT, Args extends unknown[] = [string?]
 when you only have a single additional parameter (in this case, message) after the input parameter (text), you don't need to explicitly define the type because it's already defined in the Validator type.
 
 ```ts
-import { Validation } from "input-validation-builder";
+import { Validator } from "input-validation-builder";
 
 const hasWhiteSpace: Validator<string> = (
   text: string,
@@ -149,7 +149,7 @@ const hasWhiteSpace: Validator<string> = (
 You only need to define the type when you have more than two parameters.
 
 ```ts
-import { Validation } from "input-validation-builder";
+import { Validator } from "input-validation-builder";
 
 const validateLongTextLength: Validator<string, [number, string?]> = (
   text,
@@ -165,7 +165,7 @@ const validateLongTextLength: Validator<string, [number, string?]> = (
 you can pass all the arguments through the validate function, including the custom error message. Here's an example:
 
 ```ts
-import { Validation } from "input-validation-builder";
+import { Validator } from "input-validation-builder";
 
 const validateLongTextLength: Validator<string, [number, string?]> = (
   text,
