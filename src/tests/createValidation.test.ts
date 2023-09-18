@@ -1,7 +1,8 @@
 import assert from "assert";
 import { Validator } from "../types";
 import { warnMessageWhenErrorCalledWrongIndex } from "../constants";
-import { createValidation } from "../../dist";
+import createValidation from "../createValidation";
+
 
 describe("createValidation", () => {
   // Test case for a valid value

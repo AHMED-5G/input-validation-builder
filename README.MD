@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/dt/input-validation-builder) ![npm](https://img.shields.io/npm/dw/input-validation-builder)
+
 # Input Validation Builder
 
 Input Validation Builder is a lightweight library for validating input values. It provides a simple and flexible way to perform various validations on input values, such as checking for required fields, validating email addresses, and more.
@@ -5,7 +7,6 @@ Input Validation Builder is a lightweight library for validating input values. I
 ## Usage
 
 Input Validation Builder provides a convenient way to build validation chains. You can use it to perform single or multiple validations on input values and retrieve any validation errors that occur.
-
 
 ## Installation
 
@@ -25,21 +26,19 @@ bun install input-validation-builder
 
 The `Validation` interface represents a validation object that holds the input value, validation errors, and provides methods for performing validations and retrieving error information.
 
-| Method                                | Description                                                                                                 |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `validate<Args extends unknown[]>(validator: Validator<InputT, Args>, ...args: Args): Validation<InputT>` | Performs a validation using a validator function and optional arguments. Returns a new `Validation` object. |
-| `getErrors(): string[]`                | Returns an array of all validation error messages.                                                           |
-| `hasErrors(): boolean`                 | Returns `true` if there are any validation errors, and `false` otherwise.                                    |
-| `getFirstError(): string \| null`      | Returns the first validation error message, or `null` if there are no errors.                                |
-| `continueWhenError(): Validation<InputT>` | Configures the validation to continue even if there are validation errors. Returns a new Validation object. By default, the validation stops when the first error is found. This method should be called before performing any validations. |
+| Method                                                                                                    | Description                                                                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `validate<Args extends unknown[]>(validator: Validator<InputT, Args>, ...args: Args): Validation<InputT>` | Performs a validation using a validator function and optional arguments. Returns a new `Validation` object.                                                                                                                                 |
+| `getErrors(): string[]`                                                                                   | Returns an array of all validation error messages.                                                                                                                                                                                          |
+| `hasErrors(): boolean`                                                                                    | Returns `true` if there are any validation errors, and `false` otherwise.                                                                                                                                                                   |
+| `getFirstError(): string \| null`                                                                         | Returns the first validation error message, or `null` if there are no errors.                                                                                                                                                               |
+| `continueWhenError(): Validation<InputT>`                                                                 | Configures the validation to continue even if there are validation errors. Returns a new Validation object. By default, the validation stops when the first error is found. This method should be called before performing any validations. |
 
 The `Validation` interface provides a powerful and flexible way to define and perform validations on input values, as well as retrieve and handle validation errors.
-
 
 ## Example-simple
 
 Here's an example of how you can use the Validation Builder to perform a single validation:
-
 
 ```ts
 import { createValidation } from "input-validation-builder";
@@ -130,11 +129,13 @@ type Validator<InputT, Args extends unknown[] = [string?]
 = ( value: InputT, ...args: Args ) => string | null;
 ```
 
-### example (input , message) 
+### example (input , message)
 
 when you only have a single additional parameter (in this case, message) after the input parameter (text), you don't need to explicitly define the type because it's already defined in the Validator type.
 
 ```ts
+import { Validation } from "input-validation-builder";
+
 const hasWhiteSpace: Validator<string> = (
   text: string,
   message = "White space not allowed"
@@ -143,26 +144,29 @@ const hasWhiteSpace: Validator<string> = (
 };
 ```
 
-### example (input , number , message) 
- You only need to define the type when you have more than two parameters.
+### example (input , number , message)
+
+You only need to define the type when you have more than two parameters.
 
 ```ts
+import { Validation } from "input-validation-builder";
+
 const validateLongTextLength: Validator<string, [number, string?]> = (
-    text,
+  text,
   length,
   message = "Too long"
 ) => {
-    return text.length > length ? message : null;
+  return text.length > length ? message : null;
 };
 ```
-
-
 
 ## Custom Error Message example
 
 you can pass all the arguments through the validate function, including the custom error message. Here's an example:
 
 ```ts
+import { Validation } from "input-validation-builder";
+
 const validateLongTextLength: Validator<string, [number, string?]> = (
   text,
   length,
@@ -181,4 +185,3 @@ const result2 = validateLongTextLength(text, maxLength, customMessage); // Overr
 console.log(result1); // "Too long"
 console.log(result2); // "Exceeded maximum length"
 ```
-
