@@ -16,27 +16,28 @@ export type TransformerInterface<InputT, Args extends unknown[]> = (
   ...args: Args
 ) => InputT;
 
-
 export interface ValidationAbstract<InputT> {
   value: InputT;
 
+  /**
+
+  to run validate().transform() u should return instance of TransformAndValidation<InputT>
+    */
   validate<Args extends unknown[]>(
     validator: Validator<InputT, Args>,
     ...args: Args
-  ): Validation<InputT>;
-  
-}
-
-export interface Validation<InputT> extends ValidationAbstract<InputT> {
-  value: InputT;
+  ): ValidationAbstract<InputT>;
   errors: string[];
   getErrors(): string[];
   hasErrors(): boolean;
   getFirstError(): string | null;
-  continueWhenError(): Validation<InputT>;
+  continueWhenError(): ValidationAbstract<InputT>;
 }
 
-export interface TransformAndValidation<InputT> extends Validation<InputT> {
+export interface Validation<InputT> extends ValidationAbstract<InputT> {}
+
+export interface TransformAndValidation<InputT>
+  extends ValidationAbstract<InputT> {
   transform<Args extends unknown[]>(
     transformer: TransformerInterface<InputT, Args>,
     ...args: Args

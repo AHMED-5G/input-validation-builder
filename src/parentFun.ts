@@ -1,7 +1,7 @@
 import { warnMessageWhenErrorCalledWrongIndex } from "./constants";
-import { Validation, Validator } from "./types";
+import {  ValidationAbstract, Validator } from "./types";
 
-export default function ParentFun<InputT>(value: InputT): Validation<InputT> {
+export default function ParentFun<InputT>(value: InputT): ValidationAbstract<InputT> {
   const errors: string[] = [];
   let continueAfterFirstError = false;
   let validationCounter = 0;
@@ -9,7 +9,7 @@ export default function ParentFun<InputT>(value: InputT): Validation<InputT> {
   function validate<Args extends unknown[]>(
     validator: Validator<InputT, Args>,
     ...args: Args
-  ): Validation<InputT> {
+  ): ValidationAbstract<InputT> {
     validationCounter++;
 
     if (!continueAfterFirstError && errors.length > 0) {
@@ -42,7 +42,7 @@ export default function ParentFun<InputT>(value: InputT): Validation<InputT> {
    * that subsequent validators are executed even if there are errors
    * in preceding validators.
    */
-  function continueWhenError(): Validation<InputT> {
+  function continueWhenError(): ValidationAbstract<InputT> {
     if (validationCounter > 1) {
       console.warn(warnMessageWhenErrorCalledWrongIndex);
     }
@@ -50,7 +50,7 @@ export default function ParentFun<InputT>(value: InputT): Validation<InputT> {
     return validation;
   }
 
-  const validation: Validation<InputT> = {
+  const validation: ValidationAbstract<InputT> = {
     value,
     errors,
     validate,

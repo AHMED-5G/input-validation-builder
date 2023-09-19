@@ -1,10 +1,6 @@
 import { warnMessageWhenErrorCalledWrongIndex } from "./constants";
 import ParentFun from "./parentFun";
-import {
-  TransformAndValidation,
-  TransformerInterface,
-  Validation,
-} from "./types";
+import { TransformAndValidation, TransformerInterface } from "./types";
 
 export default function createTransformThenValidate<InputT>(
   value: InputT
@@ -27,7 +23,7 @@ export default function createTransformThenValidate<InputT>(
     }
   }
 
-  const validation: TransformAndValidation<InputT> & Validation<InputT> = {
+  const validation: TransformAndValidation<InputT> = {
     ...parent,
     transform,
   };

@@ -30,15 +30,15 @@ const myValidator: Validator<number> = (value) => {
 
 const myTransformer: TransformerInterface<number, [number]> = (value, arg) => {
   console.log("validationPlayground.myTransformer -> ", value, arg);
-  // Transformation logic
+
   return value + arg;
 };
 
 const transformAndValidation = createTransformThenValidate(1)
-  .transform(myTransformer, 4)
-  .transform(myTransformer, 1)
+.transform(myTransformer, 4)
+.validate(myValidator)
+
   // .transform(myTransformer, 1)
-  .validate(myValidator);
 
 if (transformAndValidation.hasErrors()) {
   const errors = transformAndValidation.getErrors();
@@ -49,5 +49,4 @@ if (transformAndValidation.hasErrors()) {
     "validationPlayground.ts -> transformedValue -> ",
     transformedValue
   );
-
 }
