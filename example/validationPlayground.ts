@@ -1,5 +1,6 @@
 import { TransformerInterface, Validator } from "../src";
-import createTransformAndValidate from "../src/createTransformAndValidate";
+import createTransformThenValidate from "../src/createTransformThenValidate";
+
 import createValidation from "../src/createValidation";
 import {
   validateUsernameWhitespace,
@@ -17,8 +18,6 @@ const validation = createValidation("eب! ")
 
 // console.log("validationPlayground.ts -> ", validation.getErrors());
 
-const value = 1; // The input value
-
 const myValidator: Validator<number> = (value) => {
   console.log("validationPlayground.ts -> value in validator ", value);
   // Validation logic
@@ -35,23 +34,20 @@ const myTransformer: TransformerInterface<number, [number]> = (value, arg) => {
   return value + arg;
 };
 
-const transformAndValidation = createTransformAndValidate(1)
-  .transform(myTransformer, 7)
+const transformAndValidation = createTransformThenValidate(1)
+  .transform(myTransformer, 4)
   .transform(myTransformer, 1)
-  .validate(myValidator)
-  .validate(myValidator)
-  .validate(myValidator)
+  // .transform(myTransformer, 1)
   .validate(myValidator);
 
 if (transformAndValidation.hasErrors()) {
   const errors = transformAndValidation.getErrors();
-
-
+  console.log("validationPlayground.ts -> hasErrors -> ", errors);
 } else {
   const transformedValue = transformAndValidation.value;
   console.log(
     "validationPlayground.ts -> transformedValue -> ",
     transformedValue
   );
-  // Use the transformed value
+
 }

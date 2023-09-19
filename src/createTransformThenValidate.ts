@@ -6,7 +6,7 @@ import {
   Validation,
 } from "./types";
 
-export default function createTransformAndValidate<InputT>(
+export default function createTransformThenValidate<InputT>(
   value: InputT
 ): TransformAndValidation<InputT> {
   const parent = ParentFun(value);
@@ -20,7 +20,7 @@ export default function createTransformAndValidate<InputT>(
       const transformedValue = transformer(value, ...args);
       validation.value = transformedValue;
 
-      return createTransformAndValidate(transformedValue);
+      return createTransformThenValidate(transformedValue);
     } catch (error) {
       parent.errors.push((error as Error).message || "transform error");
       return validation;
