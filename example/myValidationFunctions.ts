@@ -58,3 +58,32 @@ export const isEnglishWithSpecialChars: Validator<string> = (
   const regex = /^[A-Za-z\s\d~`!@#$%^&*()\-_=+[\]{}|\\;:'",<.>/?]+$/;
   return text.match(regex) ? "" : message;
 };
+
+
+export const validateUsernameWhitespace: Validator<string> = (username: string) => {
+  if (/\s/.test(username)) {
+    return "Username should not contain whitespace";
+  }
+  return null;
+};
+
+export const validateUsernameSpecialCharacters: Validator<string> = (username) => {
+  if (!/^[a-zA-Z0-9]+$/.test(username)) {
+    return "Username should not contain special characters";
+  }
+  return null;
+};
+
+export const validateUsernameLength: Validator<string> = (username) => {
+  if (username.length < 6) {
+    return "Username should be at least 5 characters long";
+  }
+  return null;
+};
+
+export const validateUsernameLetters: Validator<string> = (username) => {
+  if (!/^[a-zA-Z]+$/.test(username)) {
+    return "Username should only contain English letters";
+  }
+  return null;
+};
