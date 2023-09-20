@@ -19,27 +19,32 @@ export type TransformerInterface<InputT, Args extends unknown[]> = (
 export interface ValidationAbstract<InputT> {
   value: InputT;
 
-  /**
-
-  to run validate().transform() u should return instance of TransformAndValidation<InputT>
-    */
-  validate<Args extends unknown[]>(
-    validator: Validator<InputT, Args>,
-    ...args: Args
-  ): ValidationAbstract<InputT>;
   errors: string[];
   getErrors(): string[];
   hasErrors(): boolean;
   getFirstError(): string | null;
-  continueWhenError(): ValidationAbstract<InputT>;
 }
 
-export interface Validation<InputT> extends ValidationAbstract<InputT> {}
+export interface Validation<InputT> extends ValidationAbstract<InputT> {
+  validate<Args extends unknown[]>(
+    validator: Validator<InputT, Args>,
+    ...args: Args
+  ): Validation<InputT>;
+  continueWhenError(): Validation<InputT>;
+}
 
 export interface TransformAndValidation<InputT>
   extends ValidationAbstract<InputT> {
+  validate<Args extends unknown[]>(
+    validator: Validator<InputT, Args>,
+    ...args: Args
+  ): TransformAndValidation<InputT>;
   transform<Args extends unknown[]>(
     transformer: TransformerInterface<InputT, Args>,
     ...args: Args
   ): TransformAndValidation<InputT>;
+  continueWhenError(): TransformAndValidation<InputT>;
+  settings: {
+    continueAfterFirstError: boolean;
+  };
 }
