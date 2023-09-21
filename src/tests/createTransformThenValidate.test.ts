@@ -1,9 +1,8 @@
 import assert from "assert";
-import { Validator } from "../types";
 import { warnMessageWhenErrorCalledWrongIndex } from "../constants";
-import createTransformAndValidate from "../createTransformAndValidate";
 import { hasSpecialCharacter, isShortText, numberShouldBe } from "./validators";
 import { addValue, toUpperCase } from "./transformers";
+import createTransformThenValidate from "../createTransformAndValidate";
 
 describe("createValidation", () => {
   // Test case for a valid value
@@ -11,7 +10,7 @@ describe("createValidation", () => {
     const value = "Hello World";
 
     const validation =
-      createTransformAndValidate(value).validate(hasSpecialCharacter);
+      createTransformThenValidate(value).validate(hasSpecialCharacter);
 
     expect(validation.hasErrors()).toBe(false);
   });
@@ -21,7 +20,7 @@ describe("createValidation", () => {
     const value = "Hello, World!123";
 
     const validation =
-      createTransformAndValidate(value).validate(hasSpecialCharacter);
+      createTransformThenValidate(value).validate(hasSpecialCharacter);
 
     expect(validation.hasErrors()).toBe(true);
     assert.deepEqual(validation.getErrors(), [
@@ -33,7 +32,7 @@ describe("createValidation", () => {
   it("should validate multiple validators", () => {
     const value = "Hello, World!123";
 
-    const validation = createTransformAndValidate(value)
+    const validation = createTransformThenValidate(value)
       .continueWhenError()
       .validate(hasSpecialCharacter)
       .validate(hasSpecialCharacter)
@@ -51,7 +50,7 @@ describe("createValidation", () => {
   it("method getFirstError should return the only first error", () => {
     const value = "Hello, World!123";
 
-    const validation = createTransformAndValidate(value)
+    const validation = createTransformThenValidate(value)
       .continueWhenError()
       .validate(hasSpecialCharacter, "this Message")
       .validate(hasSpecialCharacter, "Error message")
@@ -65,7 +64,7 @@ describe("createValidation", () => {
   it("Should not continue and return first error if continueWhenError is not called", () => {
     const value = "Hello, World!123";
 
-    const validation = createTransformAndValidate(value)
+    const validation = createTransformThenValidate(value)
       .validate(hasSpecialCharacter, "this Message")
       .validate(hasSpecialCharacter, "Error message")
       .validate(hasSpecialCharacter, "Error message");
@@ -78,7 +77,7 @@ describe("createValidation", () => {
   it("Should fire console.warn when call a continueWhenError method in index > 1", () => {
     const value = "Hello, World!123";
     const warnMock = jest.spyOn(console, "warn");
-    createTransformAndValidate(value)
+    createTransformThenValidate(value)
       .validate(hasSpecialCharacter)
       .validate(hasSpecialCharacter)
       .validate(hasSpecialCharacter)
@@ -97,7 +96,7 @@ describe("createValidation", () => {
 
   it("should create a new TransformAndValidation object with the initial value", () => {
     const value = "example";
-    const transformAndValidation = createTransformAndValidate(value);
+    const transformAndValidation = createTransformThenValidate(value);
 
     expect(transformAndValidation.value).toBe(value);
     expect(transformAndValidation.errors).toEqual([]);
@@ -105,7 +104,7 @@ describe("createValidation", () => {
 
   it("should transform the value and perform validation", () => {
     const value = "example";
-    const transformAndValidation = createTransformAndValidate(value);
+    const transformAndValidation = createTransformThenValidate(value);
 
     const transformedValue =
       transformAndValidation.transform(toUpperCase).value;
@@ -117,7 +116,7 @@ describe("createValidation", () => {
 
   it("should create a new TransformAndValidation object with the initial value", () => {
     const value = 1;
-    const transformAndValidation = createTransformAndValidate(value);
+    const transformAndValidation = createTransformThenValidate(value);
 
     expect(transformAndValidation.value).toBe(value);
     expect(transformAndValidation.errors).toEqual([]);
@@ -126,7 +125,7 @@ describe("createValidation", () => {
   it("continue when error method can has effect when placed before transformer", () => {
     const value = 1;
     const errorMessage = "Value should be 6";
-    const transformAndValidation = createTransformAndValidate(value)
+    const transformAndValidation = createTransformThenValidate(value)
       .continueWhenError()
       .transform(addValue, 1)
       .transform(addValue, 1)
@@ -134,6 +133,7 @@ describe("createValidation", () => {
       .validate(numberShouldBe, 6, errorMessage)
       .validate(numberShouldBe, 6, errorMessage);
 
+console.log("createTransformThenValidate.test.ts -> ", transformAndValidation.getErrors());
     expect(transformAndValidation.getErrors()).toEqual([
       errorMessage,
       errorMessage,
@@ -141,16 +141,14 @@ describe("createValidation", () => {
     ]);
   });
 
-  it("can validate then transform then validate then transform", () => {
-    const value = 1;
-    const transformAndValidation = createTransformAndValidate(1)
-      .validate(numberShouldBe, 1)
+  it("it can get first error", () => {
+    const transformAndValidation = createTransformThenValidate(1)
+      .continueWhenError()
       .transform(addValue, 1)
-      .validate(numberShouldBe, 2)
-      .transform(addValue, 1);
+      .validate(numberShouldBe, 111, "this error")
+      .validate(numberShouldBe, 111, "ss");
 
-      expect(transformAndValidation.value).toEqual(3);
-      expect(transformAndValidation.getErrors()).toEqual([]);
+    expect(transformAndValidation.getErrors().length).toBe(2);
+    expect(transformAndValidation.getFirstError()).toEqual("this error");
   });
-
 });

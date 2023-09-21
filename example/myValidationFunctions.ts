@@ -1,4 +1,5 @@
 import { Validator } from "../dist";
+import { TransformerInterface } from "../src";
 
 export const validateHasSpecialCharacters: Validator<string> = (
   text: string,
@@ -59,15 +60,18 @@ export const isEnglishWithSpecialChars: Validator<string> = (
   return text.match(regex) ? "" : message;
 };
 
-
-export const validateUsernameWhitespace: Validator<string> = (username: string) => {
+export const validateUsernameWhitespace: Validator<string> = (
+  username: string
+) => {
   if (/\s/.test(username)) {
     return "Username should not contain whitespace";
   }
   return null;
 };
 
-export const validateUsernameSpecialCharacters: Validator<string> = (username) => {
+export const validateUsernameSpecialCharacters: Validator<string> = (
+  username
+) => {
   if (!/^[a-zA-Z0-9]+$/.test(username)) {
     return "Username should not contain special characters";
   }
@@ -86,4 +90,44 @@ export const validateUsernameLetters: Validator<string> = (username) => {
     return "Username should only contain English letters";
   }
   return null;
+};
+
+export const removeWhiteSpace = (value: string) => {
+  return value.trim();
+};
+
+export const toLowerCase: TransformerInterface<string> = (value: string) => {
+  return value.toLowerCase();
+};
+
+export const isRequired: Validator<string> = (value) => {
+  if (!value) {
+    return "Username is required";
+  }
+
+  return null;
+};
+
+export const isShort: Validator<string, [number, string?]> = (
+  value,
+  expectedLength,
+  message = `Value should be at least ${expectedLength} characters long`
+) => {
+  if (value.length < expectedLength) {
+    return message;
+  }
+
+  return null;
+};
+
+export const englishLettersOnly: Validator<string> = (value) => {
+  if (!/^[a-zA-Z]+$/.test(value)) {
+    return "Username must contain only English letters";
+  }
+
+  return null;
+};
+
+export const addAtForUserName = (value: string) => {
+  return "@" + value;
 };

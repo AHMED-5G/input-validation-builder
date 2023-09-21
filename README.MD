@@ -185,3 +185,105 @@ const result2 = validateLongTextLength(text, maxLength, customMessage); // Overr
 console.log(result1); // "Too long"
 console.log(result2); // "Exceeded maximum length"
 ```
+
+## Transform Then Validate
+
+### Transformer interface
+
+#### examples
+
+The TransformerInterface is a type definition in TypeScript that defines a function that takes an input value of type InputT and an optional array of arguments of type Args and returns an output value of type InputT. Here's the definition of the TransformerInterface:
+
+```ts
+export type TransformerInterface<InputT, Args extends unknown[] = []> = (
+  value: InputT,
+  ...args: Args
+) => InputT;
+```
+
+##### add
+
+Here's an example of how you can use the TransformerInterface to define a function that adds two numbers:
+
+```ts
+import { TransformerInterface } from "input-validation-builder";
+const add: TransformerInterface<number, [number]> = (value, num) => {
+  return value + num;
+};
+
+const numberTransformer = createTransformThenValidate(5).transform(add, 4);
+console.log(numberTransformer.value); // 9
+```
+
+##### toLowerCase
+
+Here's an example of how you can use the createTransformThenValidate function to transform a string to lowercase:
+
+```ts
+import {
+  TransformerInterface,
+  createTransformThenValidate,
+} from "input-validation-builder";
+
+const toLowerCase: TransformerInterface<string> = (value: string) => {
+  return value.toLowerCase();
+};
+
+const helloTransformer =
+  createTransformThenValidate("HELLO").transform(toLowerCase);
+
+console.log(helloTransformer.value); // "hello"
+```
+
+You can use the TransformerInterface to define functions that transform input values in a flexible and type-safe way.
+
+### Create Transform Then Validate function
+
+`createTransformThenValidate` is a function that allows you to create a chain of transformations and validations for a given input value. The function returns a TransformAndValidation object that provides methods for performing transformations and validations on the input value. Here's an overview of how the `createTransformThenValidate` function works:
+
+
+- The function takes an input value as its argument.
+  It creates a new `TransformAndValidation` object with the input value as its initial value.
+
+- The `TransformAndValidation` object provides methods for performing transformations and validations on the input value.
+
+- The transform method takes a transformer function as its argument and applies the transformation to the input value.
+
+- The validate method takes a validator function as its argument and applies the validation to the input value.
+
+- The `continueWhenError` method sets a flag that allows the validation process to continue even if an error is encountered.
+
+- The `getErrors` method returns an array of error messages generated during the validation process.
+
+- The `hasErrors` method returns a boolean value indicating whether any errors were generated during the validation process.
+
+- The `getFirstError` method returns the first error message generated during the validation process.
+
+Here's an example of how you can use the `createTransformThenValidate` function to transform and validate a string input value:
+
+### Example
+
+```ts
+import { TransformerInterface } from "input-validation-builder";
+import createTransformThenValidate, {
+  Validator,
+} from "input-validation-builder";
+import {
+  removeWhiteSpace,
+  toLowerCase,
+  isRequired,
+  HasSpecialCharacters,
+  isShort,
+} from "./utils";
+
+const transformAndValidationUserName = createTransformThenValidate("  @AD_5g")
+  .transform(removeWhiteSpace)
+  .transform(toLowerCase)
+  .continueWhenError()
+  .validate(isRequired)
+  .validate(HasSpecialCharacters)
+  .validate(isShort, 7);
+
+console.log(transformAndValidationUserName.value); // "@ad_5g"
+console.log(transformAndValidationUserName.getErrors()); // [ "Special characters not allowed", "Value should be at least 7 characters long"]
+```

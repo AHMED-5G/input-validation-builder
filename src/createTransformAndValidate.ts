@@ -5,10 +5,10 @@ import {
   Validator,
 } from "./types";
 
-export default function createTransformAndValidate<InputT>(
+export default function createTransformThenValidate<InputT>(
   value: InputT
 ): TransformAndValidation<InputT> {
-  const errors: string[] = [];
+  let errors: string[] = [];
   let settings = {
     continueAfterFirstError: false,
   };
@@ -29,7 +29,7 @@ export default function createTransformAndValidate<InputT>(
     if (error) {
       errors.push(error);
     }
-
+    validation.errors = errors;
     return validation;
   }
 
@@ -38,11 +38,11 @@ export default function createTransformAndValidate<InputT>(
   }
 
   function hasErrors(): boolean {
-    return errors.length > 0;
+    return validation.errors.length > 0 || errors.length > 0;
   }
 
   function getFirstError(): string | null {
-    return errors[0] || null;
+    return errors[0] || validation.errors[0] || null;
   }
 
   // Recursive function to transform the value and perform validation
@@ -53,15 +53,15 @@ export default function createTransformAndValidate<InputT>(
     try {
       const transformedValue = transformer(value, ...args);
       const transformedValidation =
-        createTransformAndValidate(transformedValue);
+        createTransformThenValidate(transformedValue);
       transformedValidation.settings.continueAfterFirstError =
         settings.continueAfterFirstError;
 
       return transformedValidation;
     } catch (error) {
-      // errors.push((error as Error).message || "transform error");
       console.warn((error as Error).message);
-      
+      errors.push((error as Error).message || "transform error");
+
       return validation;
     }
   }
