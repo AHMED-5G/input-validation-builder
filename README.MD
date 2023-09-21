@@ -8,7 +8,7 @@ Input Validation Builder is a lightweight library for validating input values. I
 
 - [Validation Interface](#validation-interface)
 - [Validation Example simple](#Validation-Example-simple)
-- [Example: Performing Multiple Validations Chain](#Example:-Performing-Multiple-Validations-Chain)
+- [Example: Performing Multiple Validations Chain](#Example-Performing-Multiple-Validations-Chain)
 - [Validator Function Type](#Validator-Function-Type)
 - [Transform Then Validate](#Transform-Then-Validate)
 - [Create Transform Then Validate function](#Create-Transform-Then-Validate-function)
@@ -88,7 +88,7 @@ This will output:
 
 Validation errors: ["Invalid email address"]
 
-## Example: Performing Multiple Validations Chain
+## Example Performing Multiple Validations Chain
 
 Here's an example of how you can use the Validation Library Multiple Validations chain:
 
