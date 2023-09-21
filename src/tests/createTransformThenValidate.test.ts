@@ -2,7 +2,7 @@ import assert from "assert";
 import { warnMessageWhenErrorCalledWrongIndex } from "../constants";
 import { hasSpecialCharacter, isShortText, numberShouldBe } from "./validators";
 import { addValue, toUpperCase } from "./transformers";
-import createTransformThenValidate from "../createTransformAndValidate";
+import createTransformThenValidate from "../createTransformThenValidate";
 
 describe("createValidation", () => {
   // Test case for a valid value
@@ -149,6 +149,20 @@ describe("createValidation", () => {
 
     expect(transformAndValidation.getErrors().length).toBe(2);
     expect(transformAndValidation.getFirstError()).toEqual("this error");
+  });
+
+  it("should invoke the callback function", () => {
+    // Arrange
+
+    const callback = jest.fn();
+
+    // Act
+    const result = createTransformThenValidate(5)
+      .validate(numberShouldBe, 6)
+      .callback(callback);
+
+    // Assert
+    expect(callback).toHaveBeenCalledWith(result);
   });
 
   it("can get validation object on callback", () => {

@@ -4,6 +4,22 @@
 
 Input Validation Builder is a lightweight library for validating input values. It provides a simple and flexible way to perform various validations on input values, such as checking for required fields, validating email addresses, and more.
 
+## Benefits and Powerful Points
+
+- **Simplified Data Transformation and Validation**: This library provides a simple and intuitive way to perform data transformation and validation in your applications. It offers a fluent API that allows developers to easily chain multiple transformations and validations together.
+
+- **Flexible and Extensible**: The library is designed to be flexible and extensible, allowing developers to easily add custom transformers and validators to suit their specific needs. This empowers developers to handle complex data transformation and validation scenarios with ease.
+
+- **Error Handling and Reporting**: The library provides comprehensive error handling and reporting capabilities. Developers can easily retrieve error messages, check for errors, and take appropriate actions based on the validation results. This helps streamline the debugging and troubleshooting process.
+
+- **Improved Code Maintainability**: By encapsulating data transformation and validation logic into reusable functions, this library promotes code modularity and maintainability. Developers can write clean and concise code, making it easier to understand, test, and maintain their applications.
+
+- **Increased Productivity**: With the library's powerful features and intuitive API, developers can save significant time and effort when implementing data transformation and validation. This allows them to focus on other critical aspects of their projects, improving overall productivity and time-to-market.
+
+- **Type Safety with TypeScript**: Built with TypeScript, this library provides strong typing support, making your code more robust and less prone to type-related errors. The TypeScript types ensure that you're passing the correct types of values to transformers and validators, improving the safety and reliability of your code.
+
+
+
 ## Table of Contents
 
 - [Validation Interface](#validation-interface)
@@ -23,13 +39,13 @@ Input Validation Builder provides a convenient way to build validation chains. Y
 
 Install the package using npm:
 
-```bash
+```sh
  npm install input-validation-builder
 ```
 
 or
 
-```bash
+```sh
 bun install input-validation-builder
 ```
 
@@ -75,18 +91,8 @@ function isEmail(value: string): string | null {
 validation.validate(isRequired); // Perform the first validation
 validation.validate(isEmail); // Perform the second validation
 
-const errors = validation.getErrors(); // Get the list of errors
-
-if (validation.hasErrors()) {
-  console.log("Validation errors:", errors);
-} else {
-  console.log("Validation passed");
-}
+const errors = validation.getErrors(); //  ["Invalid email address"]
 ```
-
-This will output:
-
-Validation errors: ["Invalid email address"]
 
 ## Example Performing Multiple Validations Chain
 
@@ -103,10 +109,7 @@ const validation = createValidation(value)
   .validate(isShortText, 5);
 
 function isRequired(value: string): string | null {
-  if (!value) {
-    return "Value is required";
-  }
-  return null;
+  return value ? null : "Value is required";
 }
 
 function isEmail(value: string): string | null {
@@ -253,24 +256,16 @@ You can use the TransformerInterface to define functions that transform input va
 
 `createTransformThenValidate` is a function that allows you to create a chain of transformations and validations for a given input value. The function returns a TransformAndValidation object that provides methods for performing transformations and validations on the input value. Here's an overview of how the `createTransformThenValidate` function works:
 
-- The function takes an input value as its argument.
-  It creates a new `TransformAndValidation` object with the input value as its initial value.
-
-- The `TransformAndValidation` object provides methods for performing transformations and validations on the input value.
-
-- The transform method takes a transformer function as its argument and applies the transformation to the input value.
-
-- The validate method takes a validator function as its argument and applies the validation to the input value.
-
-- The `continueWhenError` method sets a flag that allows the validation process to continue even if an error is encountered.
-
-- The `getErrors` method returns an array of error messages generated during the validation process.
-
-- The `hasErrors` method returns a boolean value indicating whether any errors were generated during the validation process.
-
-- The `getFirstError` method returns the first error message generated during the validation process.
-
-- The `callback` method is a callback function that is can be called after the validation process is complete to perform additional actions, such as saving the input value to a database .
+| Method              | Description                                                                                                                                            |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `TransformAndValidation(inputValue)` | Creates a new `TransformAndValidation` object with the `inputValue` as its initial value.                                                        |
+| `transform(transformer)`           | Applies the `transformer` function to the input value.                                                                                                  |
+| `validate(validator)`               | Applies the `validator` function to the input value.                                                                                                    |
+| `continueWhenError()`               | Sets a flag that allows the validation process to continue even if an error is encountered.                                                             |
+| `getErrors()`                       | Returns an array of error messages generated during the validation process.                                                                              |
+| `hasErrors()`                       | Returns a boolean value indicating whether any errors were generated during the validation process.                                                    |
+| `getFirstError()`                   | Returns the first error message generated during the validation process.                                                                                 |
+| `callback()`                        | A callback function that can be called after the validation process is complete to perform additional actions, such as saving the input value to a database. |
 
 Here's an example of how you can use the `createTransformThenValidate` function to transform and validate a string input value:
 

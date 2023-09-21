@@ -91,6 +91,19 @@ describe("createValidation", () => {
     warnMock.mockRestore();
   });
 
+  it("should invoke the callback function", () => {
+
+    const callback = jest.fn();
+
+    // Act
+    const result = createValidation(5)
+      .validate(numberShouldBe, 6)
+      .callback(callback);
+
+    // Assert
+    expect(callback).toHaveBeenCalledWith(result);
+  });
+
   it("can get validation object on callback", () => {
     const transformAndValidation = createValidation(1)
       .validate(numberShouldBe, 6, "thisError")

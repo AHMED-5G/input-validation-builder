@@ -3,7 +3,7 @@ import {
   TransformerInterface,
   Validator,
 } from "../src";
-import createTransformThenValidate from "../src/createTransformAndValidate";
+import createTransformThenValidate from "../src/createTransformThenValidate";
 import createValidation from "../src/createValidation";
 import { addValue } from "../src/tests/transformers";
 import { numberShouldBe } from "../src/tests/validators";
