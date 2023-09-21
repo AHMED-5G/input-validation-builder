@@ -133,7 +133,6 @@ describe("createValidation", () => {
       .validate(numberShouldBe, 6, errorMessage)
       .validate(numberShouldBe, 6, errorMessage);
 
-console.log("createTransformThenValidate.test.ts -> ", transformAndValidation.getErrors());
     expect(transformAndValidation.getErrors()).toEqual([
       errorMessage,
       errorMessage,
@@ -150,5 +149,15 @@ console.log("createTransformThenValidate.test.ts -> ", transformAndValidation.ge
 
     expect(transformAndValidation.getErrors().length).toBe(2);
     expect(transformAndValidation.getFirstError()).toEqual("this error");
+  });
+
+  it("can get validation object on callback", () => {
+    const transformAndValidation = createTransformThenValidate(1)
+      .continueWhenError()
+      .transform(addValue, 1)
+      .validate(numberShouldBe, 6, "thisError")
+      .callback((validation) => {
+        expect(validation.getErrors()).toEqual(["thisError"]);
+      });
   });
 });

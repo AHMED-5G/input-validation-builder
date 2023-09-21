@@ -1,4 +1,8 @@
-import { TransformerInterface, Validator } from "../src";
+import {
+  TransformAndValidation,
+  TransformerInterface,
+  Validator,
+} from "../src";
 import createTransformThenValidate from "../src/createTransformAndValidate";
 import createValidation from "../src/createValidation";
 import { addValue } from "../src/tests/transformers";
@@ -60,13 +64,18 @@ import {
 //   );
 // }
 
-const transformAndValidationUserName = createTransformThenValidate("  @AD_5g")
+const transformAndValidationUserName = createTransformThenValidate<string>(
+  "  @AD_5g"
+)
   .continueWhenError()
   .transform(removeWhiteSpace)
   .transform(toLowerCase)
   .validate(isRequired)
   .validate(validateHasSpecialCharacters)
-  .validate(isShort, 7);
+  .validate(isShort, 7)
+  .callback((validation) => {
+    console.log("callback.ts -> ", validation.value);
+  })
 
 console.log(
   "validationPlayground.ts -> ",

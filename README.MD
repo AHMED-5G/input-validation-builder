@@ -4,6 +4,16 @@
 
 Input Validation Builder is a lightweight library for validating input values. It provides a simple and flexible way to perform various validations on input values, such as checking for required fields, validating email addresses, and more.
 
+## Table of Contents
+
+- [Validation Interface](#validation-interface)
+- [Validation Example simple](#Validation-Example-simple)
+- [Example: Performing Multiple Validations Chain](#Example:-Performing-Multiple-Validations-Chain)
+- [Validator Function Type](#Validator-Function-Type)
+- [Transform Then Validate](#Transform-Then-Validate)
+- [Create Transform Then Validate function](#Create-Transform-Then-Validate-function)
+- [Create Transform Then Validate Example](#Create-Transform-Then-Validate-example)
+
 ## Usage
 
 Input Validation Builder provides a convenient way to build validation chains. You can use it to perform single or multiple validations on input values and retrieve any validation errors that occur.
@@ -33,10 +43,11 @@ The `Validation` interface represents a validation object that holds the input v
 | `hasErrors(): boolean`                                                                                    | Returns `true` if there are any validation errors, and `false` otherwise.                                                                                                                                                                   |
 | `getFirstError(): string \| null`                                                                         | Returns the first validation error message, or `null` if there are no errors.                                                                                                                                                               |
 | `continueWhenError(): Validation<InputT>`                                                                 | Configures the validation to continue even if there are validation errors. Returns a new Validation object. By default, the validation stops when the first error is found. This method should be called before performing any validations. |
+| `callback: (validation: Validation) => void`                                                              | method is a callback function that is can be called after the validation process is complete to perform additional actions, such as saving the input value to a database .                                                                  |
 
 The `Validation` interface provides a powerful and flexible way to define and perform validations on input values, as well as retrieve and handle validation errors.
 
-## Example-simple
+## Validation Example simple
 
 Here's an example of how you can use the Validation Builder to perform a single validation:
 
@@ -241,7 +252,6 @@ You can use the TransformerInterface to define functions that transform input va
 
 `createTransformThenValidate` is a function that allows you to create a chain of transformations and validations for a given input value. The function returns a TransformAndValidation object that provides methods for performing transformations and validations on the input value. Here's an overview of how the `createTransformThenValidate` function works:
 
-
 - The function takes an input value as its argument.
   It creates a new `TransformAndValidation` object with the input value as its initial value.
 
@@ -259,9 +269,11 @@ You can use the TransformerInterface to define functions that transform input va
 
 - The `getFirstError` method returns the first error message generated during the validation process.
 
+- The `callback` method is a callback function that is can be called after the validation process is complete to perform additional actions, such as saving the input value to a database .
+
 Here's an example of how you can use the `createTransformThenValidate` function to transform and validate a string input value:
 
-### Example
+### Create Transform Then Validate Example
 
 ```ts
 import { TransformerInterface } from "input-validation-builder";
@@ -286,4 +298,29 @@ const transformAndValidationUserName = createTransformThenValidate("  @AD_5g")
 
 console.log(transformAndValidationUserName.value); // "@ad_5g"
 console.log(transformAndValidationUserName.getErrors()); // [ "Special characters not allowed", "Value should be at least 7 characters long"]
+```
+
+### callback method example
+
+Here's an example of how to use the callback method in the TransformAndValidation function:
+
+```ts
+import {
+  TransformerInterface,
+  createTransformThenValidate,
+  Validator,
+} from "input-validation-builder";
+
+import { toLowerCase, isRequired } from "./utils";
+
+const transformAndValidation = createTransformAndValidate("HELLO")
+  .transform(toLowerCase)
+  .validate(isRequired)
+  .callback((validation) => {
+    if (validation.hasErrors()) {
+      console.log(validation.getErrors());
+    } else {
+      console.log(validation.value);
+    }
+  });
 ```

@@ -1,8 +1,7 @@
 import assert from "assert";
 import { warnMessageWhenErrorCalledWrongIndex } from "../constants";
 import createValidation from "../createValidation";
-import { hasSpecialCharacter } from "./validators";
-
+import { hasSpecialCharacter, numberShouldBe } from "./validators";
 
 describe("createValidation", () => {
   // Test case for a valid value
@@ -90,5 +89,13 @@ describe("createValidation", () => {
       );
     }
     warnMock.mockRestore();
+  });
+
+  it("can get validation object on callback", () => {
+    const transformAndValidation = createValidation(1)
+      .validate(numberShouldBe, 6, "thisError")
+      .callback((validation) => {
+        expect(validation.getErrors()).toEqual(["thisError"]);
+      });
   });
 });

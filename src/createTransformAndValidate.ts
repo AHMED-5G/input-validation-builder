@@ -75,6 +75,13 @@ export default function createTransformThenValidate<InputT>(
     return validation;
   }
 
+  function callback(
+    callback: (validation: TransformAndValidation<InputT>) => void
+  ): TransformAndValidation<InputT> {
+    callback(validation);
+    return validation;
+  }
+
   const validation: TransformAndValidation<InputT> = {
     value,
     errors,
@@ -85,6 +92,7 @@ export default function createTransformThenValidate<InputT>(
     hasErrors,
     getFirstError,
     settings,
+    callback,
   };
   return validation;
 }

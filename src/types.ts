@@ -18,7 +18,6 @@ export type TransformerInterface<InputT, Args extends unknown[] = []> = (
 
 export interface ValidationAbstract<InputT> {
   value: InputT;
-
   errors: string[];
   getErrors(): string[];
   hasErrors(): boolean;
@@ -31,6 +30,9 @@ export interface Validation<InputT> extends ValidationAbstract<InputT> {
     ...args: Args
   ): Validation<InputT>;
   continueWhenError(): Validation<InputT>;
+  callback(
+    callback: (validation: Validation<InputT>) => void
+  ): Validation<InputT>;
 }
 
 export interface TransformAndValidation<InputT>
@@ -47,4 +49,7 @@ export interface TransformAndValidation<InputT>
   settings: {
     continueAfterFirstError: boolean;
   };
+  callback(
+    callback: (validation: TransformAndValidation<InputT>) => void
+  ): TransformAndValidation<InputT>;
 }

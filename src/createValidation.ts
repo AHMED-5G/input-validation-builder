@@ -51,7 +51,13 @@ export default function createValidation<InputT>(
     continueAfterFirstError = true;
     return validation;
   }
-  // Recursive function to transform the value and perform validation
+
+  function callback(
+    callback: (validation: Validation<InputT>) => void
+  ): Validation<InputT> {
+    callback(validation);
+    return validation;
+  }
 
   const validation: Validation<InputT> = {
     value,
@@ -61,6 +67,7 @@ export default function createValidation<InputT>(
     getErrors,
     hasErrors,
     getFirstError,
+    callback,
   };
   return validation;
 }
