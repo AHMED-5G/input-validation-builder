@@ -1,22 +1,30 @@
 {
   "name": "input-validation-builder",
-  "description": "Input Validation Builder is a lightweight library for validating input values",
-  "license": "MIT",
-  "version": "1.2.0",
+  "version": "1.2.2",
+  "author": "ahmed-5g <ahmed_5g@yahoo.com> (https://github.com/AHMED-5G)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AHMED-5G/input-validation-builder.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "devDependencies": {
+    "@esbuild/sunos-x64": "^0.19.3",
+    "@types/minimist": "^1.2.2",
+    "install": "^0.13.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "@changesets/cli": "^2.26.2",
+    "@types/jest": "^29.5.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  },
+  "description": "Input Validation Builder is a lightweight library for validating input values",
+  "homepage": "https://github.com/AHMED-5G/input-validation-builder#readme",
   "jest": {
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest"
     }
-  },
-  "scripts": {
-    "build": "tsup index.ts --format cjs, esm --dts",
-    "lint": "tsc",
-    "test": "jest",
-    "prepublishOnly": "bun run lint && bun run test && bun run build"
   },
   "keywords": [
     "validation",
@@ -29,22 +37,13 @@
     "inputValidation",
     "inputValidationBuilder"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AHMED-5G/input-validation-builder.git"
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup index.ts --format cjs, esm --dts",
+    "lint": "tsc",
+    "test": "jest",
+    "prepublishOnly": "bun run lint && bun run test && bun run build"
   },
-  "author": "ahmed-5g <ahmed_5g@yahoo.com> (https://github.com/AHMED-5G)",
-  "homepage": "https://github.com/AHMED-5G/input-validation-builder#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "@esbuild/sunos-x64": "^0.19.3",
-    "@types/minimist": "^1.2.2",
-    "install": "^0.13.0",
-    "tsup": "^7.2.0",
-    "typescript": "^5.2.2",
-    "@changesets/cli": "^2.26.2",
-    "@types/jest": "^29.5.5",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1"
-  }
+  "type": "module",
+  "types": "dist/index.d.ts"
 }

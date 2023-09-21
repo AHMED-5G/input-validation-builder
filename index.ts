@@ -1,4 +1,17 @@
-import { Validation, Validator } from "./src";
+import {
+  Validation,
+  Validator,
+  TransformerInterface,
+  TransformAndValidation,
+} from "./src";
 import createValidation from "./src/createValidation";
+import createTransformThenValidate from "./src/createTransformThenValidate";
 
-export { createValidation, Validation, Validator };
+export {
+  Validation,
+  Validator,
+  createValidation,
+  TransformAndValidation,
+  createTransformThenValidate,
+  TransformerInterface,
+};
