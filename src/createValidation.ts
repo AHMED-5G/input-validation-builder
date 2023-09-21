@@ -13,6 +13,7 @@ export default function createValidation<InputT>(
     ...args: Args
   ): Validation<InputT> {
     validationCounter++;
+
     if (!continueAfterFirstError && errors.length > 0) {
       return validation;
     }
@@ -45,11 +46,16 @@ export default function createValidation<InputT>(
    */
   function continueWhenError(): Validation<InputT> {
     if (validationCounter > 1) {
-      console.warn(
-        warnMessageWhenErrorCalledWrongIndex
-      );
+      console.warn(warnMessageWhenErrorCalledWrongIndex);
     }
     continueAfterFirstError = true;
+    return validation;
+  }
+
+  function callback(
+    callback: (validation: Validation<InputT>) => void
+  ): Validation<InputT> {
+    callback(validation);
     return validation;
   }
 
@@ -57,11 +63,11 @@ export default function createValidation<InputT>(
     value,
     errors,
     validate,
-    getErrors,
-    getFirstError,
-    hasErrors,
     continueWhenError,
+    getErrors,
+    hasErrors,
+    getFirstError,
+    callback,
   };
-
   return validation;
 }

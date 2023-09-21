@@ -1,41 +1,93 @@
-import { Validator } from "../src";
+import {
+  TransformAndValidation,
+  TransformerInterface,
+  Validator,
+} from "../src";
+import createTransformThenValidate from "../src/createTransformThenValidate";
 import createValidation from "../src/createValidation";
+import { addValue } from "../src/tests/transformers";
+import { numberShouldBe } from "../src/tests/validators";
+import {
+  validateUsernameWhitespace,
+  validateUsernameSpecialCharacters,
+  validateUsernameLength,
+  validateUsernameLetters,
+  englishLettersOnly,
+  isRequired,
+  isShort,
+  removeWhiteSpace,
+  toLowerCase,
+  addAtForUserName,
+  validateHasSpecialCharacters,
+} from "./myValidationFunctions";
 
-const value = "eب! ";
+// const validation = createValidation("eب! ")
+//   .validate(validateUsernameWhitespace)
 
-const validateUsernameWhitespace: Validator<string> = (username: string) => {
-  if (/\s/.test(username)) {
-    return "Username should not contain whitespace";
-  }
-  return null;
-};
+//   .continueWhenError()
+//   .validate(validateUsernameSpecialCharacters)
+//   .validate(validateUsernameLength)
+//   .validate(validateUsernameLetters);
+// // console.log("validationPlayground.ts -> ", validation.getErrors());
 
-const validateUsernameSpecialCharacters: Validator<string> = (username) => {
-  if (!/^[a-zA-Z0-9]+$/.test(username)) {
-    return "Username should not contain special characters";
-  }
-  return null;
-};
+// const myValidator: Validator<number> = (value) => {
+//   if (value !== 6) {
+//     return "Value must be == 6";
+//   }
 
-const validateUsernameLength: Validator<string> = (username) => {
-  if (username.length < 6) {
-    return "Username should be at least 5 characters long";
-  }
-  return null;
-};
+//   return null; // No errors
+// };
 
-const validateUsernameLetters: Validator<string> = (username) => {
-  if (!/^[a-zA-Z]+$/.test(username)) {
-    return "Username should only contain English letters";
-  }
-  return null;
-};
+// const myTransformer: TransformerInterface<number, [number]> = (value, arg) => {
+//   return value + arg;
+// };
 
-const validation = createValidation(value)
+// const transformAndValidation = createTransformThenValidate(1)
+//   .continueWhenError()
+//   .transform(myTransformer, 1)
+//   .transform(myTransformer, 1)
+//   .transform(myTransformer, 1)
+//   .transform(myTransformer, 1)
+//   .transform(myTransformer, 1)
+//   .validate(myValidator)
+//   .validate(myValidator)
+//   .validate(myValidator);
+
+// if (transformAndValidation.hasErrors()) {
+//   const errors = transformAndValidation.getErrors();
+//   console.log("transformAndValidation.hasErrors -> ", errors);
+// } else {
+//   const transformedValue = transformAndValidation.value;
+//   console.log(
+//     "validationPlayground.ts -> transformedValue -> ",
+//     transformedValue
+//   );
+// }
+
+const transformAndValidationUserName = createTransformThenValidate<string>(
+  "  @AD_5g"
+)
   .continueWhenError()
-  .validate(validateUsernameWhitespace)
-  .validate(validateUsernameSpecialCharacters)
-  .validate(validateUsernameLength)
-  .validate(validateUsernameLetters);
+  .transform(removeWhiteSpace)
+  .transform(toLowerCase)
+  .validate(isRequired)
+  .validate(validateHasSpecialCharacters)
+  .validate(isShort, 7)
+  .callback((validation) => {
+    console.log("callback.ts -> ", validation.value);
+  })
 
-console.log("validationPlayground.ts -> ", validation.getErrors());
+console.log(
+  "validationPlayground.ts -> ",
+  transformAndValidationUserName.value
+);
+console.log(
+  "user name valid ?  -> ",
+  transformAndValidationUserName.getErrors()
+);
+const add: TransformerInterface<number, [number]> = (value, num) => {
+  return value + num;
+};
+
+const numberTransformer = createTransformThenValidate(5).transform(add, 4);
+console.log(numberTransformer.value); // 9
