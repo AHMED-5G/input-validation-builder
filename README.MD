@@ -13,6 +13,7 @@ Input Validation Builder is a lightweight library for validating input values. I
 - [Transform Then Validate](#Transform-Then-Validate)
 - [Create Transform Then Validate function](#Create-Transform-Then-Validate-function)
 - [Create Transform Then Validate Example](#Create-Transform-Then-Validate-example)
+- [Callback method example](#Callback-method-example)
 
 ## Usage
 
@@ -300,7 +301,7 @@ console.log(transformAndValidationUserName.value); // "@ad_5g"
 console.log(transformAndValidationUserName.getErrors()); // [ "Special characters not allowed", "Value should be at least 7 characters long"]
 ```
 
-### callback method example
+### Callback method example
 
 Here's an example of how to use the callback method in the TransformAndValidation function:
 
