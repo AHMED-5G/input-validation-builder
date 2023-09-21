@@ -272,10 +272,8 @@ Here's an example of how you can use the `createTransformThenValidate` function 
 ### Create Transform Then Validate Example
 
 ```ts
-import { TransformerInterface } from "input-validation-builder";
-import createTransformThenValidate, {
-  Validator,
-} from "input-validation-builder";
+import { createTransformThenValidate  } from "input-validation-builder";
+
 import {
   removeWhiteSpace,
   toLowerCase,
@@ -302,9 +300,7 @@ Here's an example of how to use the callback method in the TransformAndValidatio
 
 ```ts
 import {
-  TransformerInterface,
   createTransformThenValidate,
-  Validator,
 } from "input-validation-builder";
 
 import { toLowerCase, isRequired } from "./utils";
