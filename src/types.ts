@@ -11,7 +11,7 @@ export type Validator<InputT, Args extends unknown[] = [string?]> = (
   ...args: Args
 ) => string | null;
 
-export type TransformerInterface<InputT, Args extends unknown[]> = (
+export type TransformerInterface<InputT, Args extends unknown[] = []> = (
   value: InputT,
   ...args: Args
 ) => InputT;

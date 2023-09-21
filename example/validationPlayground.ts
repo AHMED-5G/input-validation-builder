@@ -1,5 +1,5 @@
 import { TransformerInterface, Validator } from "../src";
-import createTransformThenValidate from "../src/createTransformThenValidate";
+import createTransformAndValidate from "../src/createTransformAndValidate";
 import createValidation from "../src/createValidation";
 import {
   validateUsernameWhitespace,
@@ -29,7 +29,7 @@ const myTransformer: TransformerInterface<number, [number]> = (value, arg) => {
   return value + arg;
 };
 
-const transformAndValidation = createTransformThenValidate(1)
+const transformAndValidation = createTransformAndValidate(1)
   .continueWhenError()
   .transform(myTransformer, 1)
   .transform(myTransformer, 1)
@@ -39,10 +39,6 @@ const transformAndValidation = createTransformThenValidate(1)
   .validate(myValidator)
   .validate(myValidator)
   .validate(myValidator);
-
-// .transform(myTransformer, 1)
-
-// .transform(myTransformer, 1)
 
 if (transformAndValidation.hasErrors()) {
   const errors = transformAndValidation.getErrors();

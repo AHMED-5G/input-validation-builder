@@ -1,4 +1,4 @@
 export * from "./createValidation";
-export * from "./createTransformThenValidate";
+export * from "./createTransformAndValidate";
 export * from "./types";
 export * from "./constants";

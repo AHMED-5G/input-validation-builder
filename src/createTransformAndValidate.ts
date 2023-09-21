@@ -5,7 +5,7 @@ import {
   Validator,
 } from "./types";
 
-export default function createTransformThenValidate<InputT>(
+export default function createTransformAndValidate<InputT>(
   value: InputT
 ): TransformAndValidation<InputT> {
   const errors: string[] = [];
@@ -53,13 +53,15 @@ export default function createTransformThenValidate<InputT>(
     try {
       const transformedValue = transformer(value, ...args);
       const transformedValidation =
-        createTransformThenValidate(transformedValue);
+        createTransformAndValidate(transformedValue);
       transformedValidation.settings.continueAfterFirstError =
         settings.continueAfterFirstError;
 
       return transformedValidation;
     } catch (error) {
-      errors.push((error as Error).message || "transform error");
+      // errors.push((error as Error).message || "transform error");
+      console.warn((error as Error).message);
+      
       return validation;
     }
   }
