@@ -16,40 +16,33 @@ export type TransformerInterface<InputT, Args extends unknown[] = []> = (
   ...args: Args
 ) => InputT;
 
-export interface ValidationAbstract<InputT> {
+export interface ValidationAbstract<InputT, ObjectT> {
   value: InputT;
   errors: string[];
   getErrors(): string[];
   hasErrors(): boolean;
   getFirstError(): string | null;
-}
-
-export interface Validation<InputT> extends ValidationAbstract<InputT> {
   validate<Args extends unknown[]>(
     validator: Validator<InputT, Args>,
     ...args: Args
-  ): Validation<InputT>;
-  continueWhenError(): Validation<InputT>;
-  callback(
-    callback: (validation: Validation<InputT>) => void
-  ): Validation<InputT>;
+  ): ObjectT;
+  callback(callback: (validation: ObjectT) => void): ObjectT;
+  continueWhenError(): ObjectT;
+}
+
+export interface Validation<InputT>
+  extends ValidationAbstract<InputT, Validation<InputT>> {
+
 }
 
 export interface TransformAndValidation<InputT>
-  extends ValidationAbstract<InputT> {
-  validate<Args extends unknown[]>(
-    validator: Validator<InputT, Args>,
-    ...args: Args
-  ): TransformAndValidation<InputT>;
+  extends ValidationAbstract<InputT, TransformAndValidation<InputT>> {
   transform<Args extends unknown[]>(
     transformer: TransformerInterface<InputT, Args>,
     ...args: Args
   ): TransformAndValidation<InputT>;
-  continueWhenError(): TransformAndValidation<InputT>;
+
   settings: {
     continueAfterFirstError: boolean;
   };
-  callback(
-    callback: (validation: TransformAndValidation<InputT>) => void
-  ): TransformAndValidation<InputT>;
 }
