@@ -4,3 +4,4 @@ bun.lockb
 tsconfig.json
 example
 index.ts
+CHANGELOG.md

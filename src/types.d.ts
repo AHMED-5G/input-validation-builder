@@ -31,9 +31,7 @@ export interface ValidationAbstract<InputT, ObjectT> {
 }
 
 export interface Validation<InputT>
-  extends ValidationAbstract<InputT, Validation<InputT>> {
-
-}
+  extends ValidationAbstract<InputT, Validation<InputT>> {}
 
 export interface TransformAndValidation<InputT>
   extends ValidationAbstract<InputT, TransformAndValidation<InputT>> {

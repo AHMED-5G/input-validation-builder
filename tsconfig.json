@@ -7,7 +7,6 @@
     "strict": true,
     "skipLibCheck": false,
     "noUncheckedIndexedAccess": true,
-    "noEmit": true,
-
+    "noEmit": true
   }
 }
